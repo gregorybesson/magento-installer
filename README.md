@@ -37,6 +37,7 @@ Somewhere in your project create a YAML file like this:
     	admin_email: john.doe@foo.it
     	admin_username: admin
     	admin_password: password
+    	install_sample: false
 
 Then edit your `composer.json` to specify the path of the YAML file and to set the installer as a `post-install-cmd`/`post-update-cmd` script.
 
@@ -52,6 +53,7 @@ Then edit your `composer.json` to specify the path of the YAML file and to set t
     "extra": {
     	…
         "install": "path/to/your/file.yml",
+        "magento-sample-dir": "./var/magento-sample-data"
         …
     }
 

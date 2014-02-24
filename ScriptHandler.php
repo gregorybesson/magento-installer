@@ -58,7 +58,7 @@ class ScriptHandler
 
         self::createMysqlDatabase($parameters);
 
-        // DO I install the sample data ?
+        // Do I install the sample data ?
         if (file_exists($magentoSampleDir) || is_dir($magentoSampleDir)) {
 
             if ($parameters['install_sample']) {
@@ -73,6 +73,7 @@ class ScriptHandler
                 }
 
                 // Copy / paste the sample data content in /media
+                self::copy($magentoSampleDir.'/media', $magentoRootDir . '/media');
 
                 echo "Sample Data installed\n";
             }
@@ -288,5 +289,21 @@ class ScriptHandler
         }
 
         return $output;
+    }
+    
+    protected static function copy($source, $dest)
+    {
+        foreach (
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::SELF_FIRST) as $item
+        ) {
+                if ($item->isDir()) {
+                    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                } else {
+                    copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                }
+            }
+    
     }
 }
